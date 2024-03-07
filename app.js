@@ -29,7 +29,7 @@ app.get("/connectme",async function(req,res){
 });
 
 
-app.post('getdata', function(req,res){
+app.post('/getdata', function(req,res){
     console.log('Received data:', req.body);
     postData = req.body;
     // Respond to the client

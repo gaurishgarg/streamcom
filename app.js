@@ -28,15 +28,22 @@ const scrapeLogic = async (res) => {
     await page.goto("https://projectbase-gaurish.streamlit.app/");
 
 
-    const renderedContent = await page.evaluate(() => {
-        // Access the DOM elements and extract their innerHTML
-        return document.documentElement.outerHTML;
-      });
-    
-    console.log(renderedContent);
+    const iframe = document.querySelector('iframe');
+
+    // Get the contentWindow of the iframe
+    const iframeWindow = iframe.contentWindow;
+
+    // Get the document of the iframe
+    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+    // Access the HTML content of the iframe
+    const iframeHTML = iframeDocument.documentElement.outerHTML;
+
+    // Print or use the iframe HTML content as needed
+    console.log(iframeHTML);
 
     // Print the full title
-    res.send(renderedContent);
+    res.send(iframeHTML);
   } catch (e) {
     console.error(e);
     res.send(`Something went wrong while running Puppeteer: ${e}`);

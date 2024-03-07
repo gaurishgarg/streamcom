@@ -25,7 +25,7 @@ const scrapeLogic = async (res) => {
   try {
     const page = await browser.newPage();
 
-    await page.goto("https://developer.chrome.com/");
+    await page.goto("https://projectbase-gaurish.streamlit.app/");
 
     let content = await page.content()
     console.log(content);

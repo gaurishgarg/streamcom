@@ -26,26 +26,25 @@ const scrapeLogic = async (res) => {
     const page = await browser.newPage();
 
     await page.goto("https://projectbase-gaurish.streamlit.app/");
+
+      // Extract the innerHTML of the <body> element
+  const streamlitInfoJSON = await page.evaluate(() => {
+    // Extract the required information from the HTML document
+    const port = document.querySelector('script').innerText.match(/"port":(\d+)/)[1];
+    const url = document.querySelector('script').innerText.match(/"url":"([^"]+)"/)[1];
+    // Return the extracted information as an object
+    return {
+      port: parseInt(port),
+      url: url
+    };
+  });
+  res.send(streamlitInfoJSON);
+
+  // Print or use the extracted information
+  console.log(streamlitInfoJSON);
+
     
-    // Wait for the iframe to be available
-  await page.waitForSelector('iframe');
-
-  // Get the handle of the iframe element
-  const iframeHandle = await page.$('iframe');
-
-  // Evaluate JavaScript code within the context of the iframe to extract its HTML content
-  const iframeHTML = await page.evaluate((iframe) => {
-    // Access the contentDocument of the iframe to interact with its DOM
-    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-    
-    // Access the HTML content of the iframe
-    return iframeDocument.documentElement.outerHTML;
-  }, iframeHandle);
-
-  console.log(iframeHTML); // Print or use the iframe HTML content as needed
-
-  res.send(iframeHTML);
-
+ 
   await browser.close();
     
     // Print or use the iframe HTML content as needed

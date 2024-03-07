@@ -11,7 +11,7 @@ let postData = {}; // Variable to store the POST data
 const puppeteer = require('puppeteer');
 
 async function runStreamlitHeadlessly() {
-    const browser = await puppeteer.launch({ headless: shell });
+    const browser = await puppeteer.launch({ headless: 'shell' });
     const page = await browser.newPage();
     await page.goto('https://projectbase-gaurish.streamlit.app/');
       // Extract JSON data from the Streamlit UI

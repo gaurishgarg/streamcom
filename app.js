@@ -27,8 +27,13 @@ const scrapeLogic = async (res) => {
 
     await page.goto("https://projectbase-gaurish.streamlit.app/");
 
-    let content = await page.content()
-    console.log(content);
+
+    const renderedContent = await page.evaluate(() => {
+        // Access the DOM elements and extract their innerHTML
+        return document.documentElement.outerHTML;
+      });
+    
+    console.log(renderedContent);
 
     // Print the full title
     res.send(content);

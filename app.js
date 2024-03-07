@@ -10,7 +10,7 @@ let postData = {}; // Variable to store the POST data
 
 async function scrapeDataFromWebPage() {
     try {
-        const response = await axios.get('https://example.com/page');
+        const response = await axios.get('https://projectbase-gaurish.streamlit.app/');
         console.log(esponse.data);
         const $ = cheerio.load(response.data);
         // Use Cheerio selectors to extract data from the page

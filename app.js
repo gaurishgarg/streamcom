@@ -1,31 +1,49 @@
 const express = require('express');
-const axios = require('axios');
-const cheerio = require('cheerio');
+require("dotenv").config();
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 let postData = {}; // Variable to store the POST data
 
 
+const puppeteer = require("puppeteer");
+require("dotenv").config();
 
-async function scrapeDataFromWebPage() {
-    try {
-        const response = await axios.get('https://projectbase-gaurish.streamlit.app/');
-        console.log(esponse.data);
-        const $ = cheerio.load(response.data);
-        // Use Cheerio selectors to extract data from the page
-        // const data = $('selector').text();
-        postData = {"demo":"Demo"};
-    } catch (error) {
-        console.error('Error scraping data:', error);
-    }
-}
+const scrapeLogic = async (res) => {
+  const browser = await puppeteer.launch({
+    args: [
+      "--disable-setuid-sandbox",
+      "--no-sandbox",
+      "--single-process",
+      "--no-zygote",
+    ],
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
+  });
+  try {
+    const page = await browser.newPage();
+
+    await page.goto("https://developer.chrome.com/");
+
+    let content = await page.content()
+    console.log(content);
+
+    // Print the full title
+    res.send(content);
+  } catch (e) {
+    console.error(e);
+    res.send(`Something went wrong while running Puppeteer: ${e}`);
+  } finally {
+    await browser.close();
+  }
+};
 
 
 
 app.get("/connectme", async function (req, res) {
-    await scrapeDataFromWebPage();
-    res.send(postData);
+    scrapeLogic(res);
 });
 
 

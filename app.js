@@ -19,7 +19,7 @@ app.post("/whatsmyport", function(req,res){
   mylogger.add("Received browserid")
   console.log(received_browserid);
   mylogger.add("received_browserid")
-  waitForPostDataPromise = new Promise(resolve,reject => {
+  waitForPostDataPromise = new Promise((resolve,reject) => {
     console.log("In promise, waiting for post request");
     mylogger.add("In promise, waiting for post request")
     let timeout = setTimeout(() => {

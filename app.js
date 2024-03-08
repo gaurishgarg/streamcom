@@ -13,7 +13,7 @@ app.post("/getdata", function(req,res){
   let postdata = req.body;
   console.log("I received some post requests and added to list");
   instances.add(postdata);
-  res.statusCode(200);
+  res.status(200);
 });
 
 app.post("/whatsmyport", function(req, res) {

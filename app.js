@@ -76,7 +76,6 @@ const scrapeLogic = async (res) => {
             }
             if(this_Flag==true){
                 myres.status(200).json({ message: 'Invalid Post Request' });
-                reject({"Error": "Browser Not Found"});
             }
          
             });

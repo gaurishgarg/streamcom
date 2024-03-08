@@ -50,6 +50,8 @@ const scrapeLogic = async (res) => {
     let gotopath = `https://projectbase-gaurish.streamlit.app/?browserId=${browserId}`;
     console.log("Opened path");
     await page.goto(gotopath);
+    allbrowsers.add({"browser": browser, "browserid": browserId});
+
 
       // Extract the innerHTML of the <body> element
     //   const streamlitInfo = await page.evaluate(() => {
@@ -92,7 +94,6 @@ const scrapeLogic = async (res) => {
             data_to_send = allpostdata[i];
         }
     }
-    allbrowsers.add({"browser": browser, "browserid": browserId, "associated": data_to_send});
     res.send(data_to_send);
 
     await browser.close();

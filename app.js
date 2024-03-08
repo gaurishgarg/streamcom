@@ -1,13 +1,13 @@
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3()
 const bodyParser = require('body-parser'); // Import body-parser middleware
 const express = require('express');
-const List = require('collections/list');
+
 require("dotenv").config();
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // Use JSON body parser middleware
-var instances = new List();
-const AWS = require("aws-sdk");
-const s3 = new AWS.S3()
+
 app.get("/", async function(req,res){
   await test();
   res.send("This is the face of backend");

@@ -47,7 +47,7 @@ const scrapeLogic = async (res) => {
   try {
     const page = await browser.newPage();
     let browserId = generateBrowserId();
-    let gotopath = "https://projectbase-gaurish.streamlit.app/?browserId=${"+ browserId+"}";
+    let gotopath = `https://projectbase-gaurish.streamlit.app/?browserId=${browserId}`;
     await page.goto(gotopath);
 
       // Extract the innerHTML of the <body> element
@@ -75,6 +75,7 @@ const scrapeLogic = async (res) => {
                 }
             }
             if(this_Flag==true){
+                myres.status(200).json({ message: 'Invalid Post Request' });
                 reject({"Error": "Browser Not Found"});
             }
          

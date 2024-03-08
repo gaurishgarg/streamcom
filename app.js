@@ -59,7 +59,7 @@ const scrapeLogic = async (res) => {
     const postDataPromise = new Promise((resolve, reject) => {
         const timeout = setTimeout(() => {
             reject("Timeout: No POST request received within the specified time.");
-        }, 60000); 
+        }, 6000000); 
         app.post('/getdata', function(req,myres){
             let this_Flag = true;
             console.log('Received data:', req.body);

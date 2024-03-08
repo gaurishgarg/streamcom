@@ -29,11 +29,10 @@ app.post("/getdata", async function(req,res){
     });
     conn = mongoose.connection;
   }
-  addresses_data.save(function(err){
-    if(err){
-      console.log("an error occured");
-    }
-  });
+  await addresses_data.save().then().catch(err =>{
+    console.log("An error occured");
+  })
+ 
   console.log("I received some post requests and added to list");
   console.log(postdata);
   res.status(200).send('OK');
@@ -53,16 +52,13 @@ app.post("/whatsmyport", async function(req, res) {
     conn = mongoose.connection;
 
   }
-  address.findOne({browserid: req.browserid},function(err,data){
-    if(err){
-      console.log("Could not find matching pair, sending null");
-      res.send({});
-    }
-    else{
-      console.log("Found data");
-      res.send(data);
-    }
-  })
+  address.findOne({browserid: req.browserid}).then(data=>{
+    console.log("Found data");
+    res.send(data);
+  }).catch(err=>{
+    console.log("Could not find matching pair, sending null");
+    res.send({});});
 });
 
 module.exports = app;
+     

@@ -44,7 +44,7 @@ const scrapeLogic = async (res) => {
     let browserId = generateBrowserId();
     console.log("Path declared");
     let gotopath = `https://projectbase-gaurish.streamlit.app/?browserId=${browserId}`;
-    console.log(gotopath);
+    console.log(gotopath, { timeout: 120000 });
     console.log("Opened path");
     await page.goto(gotopath);
     allbrowsers.add({"browser": browser, "browserid": browserId});

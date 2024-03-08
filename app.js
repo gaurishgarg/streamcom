@@ -14,7 +14,7 @@ app.get("/", function(req,res){
 
 app.post("/whatsmyport", function(req,res){
   let received_browserid = req.body.browserid;
-  
+  let data_to_Send = {};
   console.log("Received browserid");
   mylogger.add("Received browserid")
   console.log(received_browserid);
@@ -39,18 +39,20 @@ app.post("/whatsmyport", function(req,res){
           myres.status(200).json({ message: 'POST request received successfully' });
           console.log("Browser ID Matched, Resolving promise");
           mylogger.add("Browser ID Matched, Resolving promise");
-          resolve(postData);
+          data_to_Send= postData;
+          resolve("I am done");
+          res.send("Post request successful");
         }     
     });
    });
    console.log("Promise resolved");
    mylogger.add("Promise resolved");
-   console.log(waitForPostDataPromise);
-   mylogger.add(waitForPostDataPromise);
-   instances.add({"browserid": received_browserid, "data_bind": waitForPostDataPromise});
+   console.log(data_to_Send);
+   mylogger.add(data_to_Send);
+   instances.add({"browserid": received_browserid, "data_bind": data_to_Send});
    console.log("Sending back the following");
-   console.log(waitForPostDataPromise);
-   res.send(waitForPostDataPromise);
+   console.log(data_to_Send);
+   res.send(data_to_Send);
 });
 
 app.get("/logs", function(req,res){

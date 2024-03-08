@@ -1,8 +1,9 @@
+const bodyParser = require('body-parser'); // Import body-parser middleware
 const express = require('express');
 require("dotenv").config();
 const app = express();
 app.use(express.urlencoded({ extended: true }));
-
+app.use(bodyParser.json()); // Use JSON body parser middleware
 let postData = {}; // Variable to store the POST data
 
 

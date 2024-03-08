@@ -11,7 +11,6 @@ counter = 0;
 
 let allbrowsers = new List();
 const puppeteer = require("puppeteer");
-const { count } = require('console');
 require("dotenv").config();
 
 
@@ -47,7 +46,9 @@ const scrapeLogic = async (res) => {
   try {
     const page = await browser.newPage();
     let browserId = generateBrowserId();
+    console.log("Path declared");
     let gotopath = `https://projectbase-gaurish.streamlit.app/?browserId=${browserId}`;
+    console.log("Opened path");
     await page.goto(gotopath);
 
       // Extract the innerHTML of the <body> element

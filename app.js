@@ -68,7 +68,7 @@ const scrapeLogic = async (res) => {
             console.log('Received data:', req.body);
             postData = req.body;
             for(let i=0;i<allbrowsers.length;i++){
-                if(allbrowsers[i].browserid == postData.browserid){
+                if(allbrowsers.toArray()[i].browserid == postData.browserid){
                     this_Flag = false;
                     allpostdata.add(postData);
                             // Respond to the client
@@ -90,8 +90,8 @@ const scrapeLogic = async (res) => {
     let data_to_send = {}
     
     for(let i=0;i<allpostdata.length;i++){
-        if(allpostdata[i].browserid == browserId){
-            data_to_send = allpostdata[i];
+        if(allpostdata.toArray()[i].browserid == browserId){
+            data_to_send = allpostdata.toArray()[i];
         }
     }
     res.send(data_to_send);
@@ -115,9 +115,9 @@ app.get("/connectme", async function (req, res) {
 app.post('/closemybrowser', function(req,res){
     var data = req.body;
     for(let i=0;i<allbrowsers.length;i++){
-        if(allbrowsers[i].browserid == data.mybrowserid){
-            allbrowsers[i].browser.close();
-            allbrowsers.delete(allbrowsers[i]);
+        if(allbrowsers.toArray()[i].browserid == data.mybrowserid){
+            allbrowsers.toArray()[i].browser.close();
+            allbrowsers.delete(allbrowsers.toArray()[i]);
             counter--;
         }
     }

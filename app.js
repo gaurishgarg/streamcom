@@ -6,6 +6,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // Use JSON body parser middleware
 var instances = new List();
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3()
 app.get("/", function(req,res){
   test();
   res.send("This is the face of backend");

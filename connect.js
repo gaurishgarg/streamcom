@@ -4,7 +4,6 @@ dotenv.config({path: './.env'});
 console.log("Connecting to Database");
 const DB = process.env.URL;
 mongoose.connect(DB,{
-    useNewUrlParser: true,
     
 }).then(con=>{
     console.log("DB Connection Successful");

@@ -9,7 +9,7 @@ var instances = new List();
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3()
 app.get("/", async function(req,res){
-  test();
+  await test();
   res.send("This is the face of backend");
 });
 app.post("/getdata", function(req,res){

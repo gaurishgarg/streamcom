@@ -1,7 +1,7 @@
-const AWS = require("aws-sdk");
-const s3 = new AWS.S3()
 const bodyParser = require('body-parser'); // Import body-parser middleware
 const express = require('express');
+const conn = require('./connect');
+const address = require('./schema');
 
 require("dotenv").config();
 const app = express();
@@ -13,13 +13,32 @@ app.get("/", function(req,res){
 });
 app.post("/getdata", function(req,res){
   let postdata = req.body;
+  var addresses_data= new address({
+    browserid: req.body.browserid,
+    browserport: req.body.port,
+    postdataurl: req.body.url
+  })
+  addresses_data.save(function(err){
+    if(err){
+      console.log("an error occured");
+    }
+  });
   console.log("I received some post requests and added to list");
   console.log(postdata);
   res.status(200).send('OK');
 });
 
 app.post("/whatsmyport", function(req, res) {
-  res.send("Hello");
+  address.findOne({browserid: req.browserid},function(err,data){
+    if(err){
+      console.log("Could not find matching pair, sending null");
+      res.send({});
+    }
+    else{
+      console.log("Found data");
+      res.send(data);
+    }
+  })
 });
 
 module.exports = app;

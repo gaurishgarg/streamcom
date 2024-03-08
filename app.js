@@ -28,28 +28,38 @@ const scrapeLogic = async (res) => {
     await page.goto("https://projectbase-gaurish.streamlit.app/");
 
       // Extract the innerHTML of the <body> element
-  const streamlitInfoJSON = await page.evaluate(() => {
-    // Extract the required information from the HTML document
-    const port = document.querySelector('script').innerText.match(/"port":(\d+)/)[1];
-    const url = document.querySelector('script').innerText.match(/"url":"([^"]+)"/)[1];
-    // Return the extracted information as an object
-    return {
-      port: parseInt(port),
-      url: url
-    };
-  });
-  res.send(streamlitInfoJSON);
-
+      const streamlitInfo = await page.evaluate(() => {
+        // Access the injected script and extract the information
+        return window.streamlitInfo || {};
+      });
+      await waitForPostData();
+      res.send({
+        "port": streamlitInfo.port,
+        "url": streamlitInfo.url,
+        "postdata": postData
+      });
+  
+      console.log({
+        "port": streamlitInfo.port,
+        "url": streamlitInfo.url,
+        "postdata": postData
+      });
   // Print or use the extracted information
-  console.log(streamlitInfoJSON);
 
     
- 
+  function waitForPostData() {
+    return new Promise((resolve) => {
+      if (Object.keys(postData).length > 0) {
+        resolve();
+      } else {
+        setTimeout(() => {
+          waitForPostData().then(resolve);
+        }, 100); // Adjust the delay as needed
+      }
+    });
+  }
   await browser.close();
     
-    // Print or use the iframe HTML content as needed
-
-    // Print the full title
   } catch (e) {
     console.error(e);
     res.send(`Something went wrong while running Puppeteer: ${e}`);
@@ -65,7 +75,7 @@ app.get("/connectme", async function (req, res) {
 });
 
 
-app.post('getdata', function(req,res){
+app.post('/getdata', function(req,res){
     console.log('Received data:', req.body);
     postData = req.body;
     // Respond to the client

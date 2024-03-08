@@ -54,9 +54,11 @@ app.post("/whatsmyport", async function(req, res) {
   }
   address.findOne({browserid: req.browserid}).then(data=>{
     console.log("Found data");
+    console.log("Data I found: "+data);
     res.send(data);
   }).catch(err=>{
     console.log("Could not find matching pair, sending null");
+    console.log(err);
     res.send({});});
 });
 

@@ -52,7 +52,7 @@ app.post("/whatsmyport", async function(req, res) {
     conn = mongoose.connection;
 
   }
-  address.findOne({browserid: req.browserid}).then(data=>{
+  address.findOne({browserid: req.body.browserid}).then(data=>{
     if(data!=null){
       console.log("Found data");
       console.log("Data I found: "+data);

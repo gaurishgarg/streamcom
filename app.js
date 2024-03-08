@@ -40,20 +40,21 @@ app.post("/whatsmyport", function(req,res){
           console.log("Browser ID Matched, Resolving promise");
           mylogger.add("Browser ID Matched, Resolving promise");
           data_to_Send= postData;
+          console.log("Promise resolved");
+          mylogger.add("Promise resolved");
+          console.log(data_to_Send);
+          mylogger.add(data_to_Send);
+          instances.add({"browserid": received_browserid, "data_bind": data_to_Send});
+          console.log("Sending back the following");
+          console.log(data_to_Send);
+          res.send(data_to_Send);
           resolve("I am done");
-          res.send("Post request successful");
+          myres.send("Post request successful");
+
         }     
     });
    });
-   console.log("Promise resolved");
-   mylogger.add("Promise resolved");
-   console.log(data_to_Send);
-   mylogger.add(data_to_Send);
-   instances.add({"browserid": received_browserid, "data_bind": data_to_Send});
-   console.log("Sending back the following");
-   console.log(data_to_Send);
-   res.send(data_to_Send);
-});
+   });
 
 app.get("/logs", function(req,res){
   res.send(mylogger.toArray());

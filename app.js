@@ -97,9 +97,14 @@ app.post('/closemybrowser', function(req,res){
 app.post('/getdata', function(req,res){
     console.log('Received data:', req.body);
     postData = req.body;
-    allpostdata.add(postData);
+    for(let i=0;i<allbrowsers.length;i++){
+        if(allbrowsers[i].browserid == postData.browserid){
+            allpostdata.add(postData);
+        }
+    }
     // Respond to the client
     res.status(200).json({ message: 'POST request received successfully' });
-});
+
+    });
 
 module.exports = app;

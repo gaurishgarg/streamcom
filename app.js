@@ -13,48 +13,47 @@ app.get("/", function(req,res){
 })
 
 app.post("/whatsmyport", async function(req,res){
-  let received_browserid = req.body.browserid;
-  let data_to_Send = {};
-  console.log("Received browserid");
-  mylogger.add("Received browserid")
-  console.log(received_browserid);
-  mylogger.add("received_browserid")
-  waitForPostDataPromise = await new Promise((resolve,reject) => {
-    console.log("In promise, waiting for post request");
-    mylogger.add("In promise, waiting for post request")
-    let timeout = setTimeout(() => {
-      reject("Handshake refused");
-  }, 120000); 
-    app.post('/getdata', (myreq, myres) => {
-        console.log("a post request received, let me check it");
-        mylogger.add("a post request received, let me check it");
-        let postData = myreq.body;
-        console.log("I received this post request");
-        mylogger.add("I received this post request");
-        console.log(postData)
-        mylogger.add(postData);
-        if(received_browserid == postData.browserid){
-          console.log("Browser ID Matched, Sending 200 OK");
-          mylogger.add("Browser ID Matched, Sending 200 OK");
-          myres.status(200).json({ message: 'POST request received successfully' });
-          console.log("Browser ID Matched, Resolving promise");
-          mylogger.add("Browser ID Matched, Resolving promise");
-          data_to_Send= postData;
-          resolve("I am done");
-          myres.send("Post request successful");
-        }     
-    });
-   });
-   console.log("Promise resolved");
-   mylogger.add("Promise resolved");
-   console.log(data_to_Send);
-   mylogger.add(data_to_Send);
-   instances.add({"browserid": received_browserid, "data_bind": data_to_Send});
-   console.log("Sending back the following");
-   console.log(data_to_Send);
-   res.send(data_to_Send);
-});
-
+    let received_browserid = req.body.browserid;
+    
+    console.log("Received browserid");
+    mylogger.add("Received browserid")
+    console.log(received_browserid);
+    mylogger.add("received_browserid")
+    data_to_Send = await new Promise((resolve,reject) => {
+      console.log("In promise, waiting for post request");
+      mylogger.add("In promise, waiting for post request")
+      let timeout = setTimeout(() => {
+        reject("Handshake refused");
+    }, 120000); 
+      app.post('/getdata', (myreq, myres) => {
+          console.log("a post request received, let me check it");
+          mylogger.add("a post request received, let me check it");
+          let postData = myreq.body;
+          console.log("I received this post request");
+          mylogger.add("I received this post request");
+          console.log(postData)
+          mylogger.add(postData);
+          if(received_browserid == postData.browserid){
+            console.log("Browser ID Matched, Sending 200 OK");
+            mylogger.add("Browser ID Matched, Sending 200 OK");
+            myres.status(200).json({ message: 'POST request received successfully' });
+            console.log("Browser ID Matched, Resolving promise");
+            mylogger.add("Browser ID Matched, Resolving promise");
+            myres.send("Post request successful");
+            resolve(postData);
+         
+          }     
+      });
+     });
+     console.log("Promise resolved");
+     mylogger.add("Promise resolved");
+     console.log(data_to_Send);
+     mylogger.add(data_to_Send);
+     instances.add({"browserid": received_browserid, "data_bind": data_to_Send});
+     console.log("Sending back the following");
+     console.log(data_to_Send);
+     res.send(data_to_Send);
+  });  
 app.get("/logs", function(req,res){
   res.send(mylogger.toArray());
 

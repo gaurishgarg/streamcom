@@ -14,6 +14,7 @@ app.get("/", function(req,res){
 app.post("/getdata", function(req,res){
   let postdata = req.body;
   console.log("I received some post requests and added to list");
+  console.log(postdata);
   res.status(200).send('OK');
 });
 

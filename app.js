@@ -13,6 +13,7 @@ app.post("/getdata", function(req,res){
   let postdata = req.body;
   console.log("I received some post requests and added to list");
   instances.add(postdata);
+  console.log("Added");
   res.status(200);
 });
 

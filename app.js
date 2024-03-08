@@ -55,6 +55,35 @@ const scrapeLogic = async (res) => {
     //     // Access the injected script and extract the information
     //     return window.streamlitInfo || {};
     //   });
+
+    const postDataPromise = new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+            reject("Timeout: No POST request received within the specified time.");
+        }, 60000); 
+        app.post('/getdata', function(req,myres){
+            let this_Flag = true;
+            console.log('Received data:', req.body);
+            postData = req.body;
+            for(let i=0;i<allbrowsers.length;i++){
+                if(allbrowsers[i].browserid == postData.browserid){
+                    this_Flag = false;
+                    allpostdata.add(postData);
+                            // Respond to the client
+                    myres.status(200).json({ message: 'POST request received successfully' });
+                    resolve(postData);
+                    break;
+                }
+            }
+            if(this_Flag==true){
+                reject({"Error": "Browser Not Found"});
+            }
+         
+            });
+    });
+
+    // Wait for the post request to be received
+    const receivedData = await postDataPromise;
+
     let data_to_send = {}
     
     for(let i=0;i<allpostdata.length;i++){
@@ -65,11 +94,7 @@ const scrapeLogic = async (res) => {
     allbrowsers.add({"browser": browser, "browserid": browserId, "associated": data_to_send});
     res.send(data_to_send);
 
-  
-  // Print or use the extracted information
-
-
-  await browser.close();
+    await browser.close();
     
   } catch (e) {
     console.error(e);
@@ -95,17 +120,6 @@ app.post('/closemybrowser', function(req,res){
         }
     }
 })
-app.post('/getdata', function(req,res){
-    console.log('Received data:', req.body);
-    postData = req.body;
-    for(let i=0;i<allbrowsers.length;i++){
-        if(allbrowsers[i].browserid == postData.browserid){
-            allpostdata.add(postData);
-        }
-    }
-    // Respond to the client
-    res.status(200).json({ message: 'POST request received successfully' });
 
-    });
 
 module.exports = app;

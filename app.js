@@ -19,14 +19,12 @@ function generateBrowserId() {
     // Generate a timestamp
     const timestamp = Date.now();
     // Generate a random alphanumeric string
-    const randomString = Math.random().toString(36);
     // Combine timestamp and random string to create a partial ID
-    const partialId = `${timestamp}-${randomString}`;
 
     counter++;
     // Add a counter to handle cases where instances are created within the same millisecond
     // Combine partial ID and counter to create the final ID
-    return `${partialId}-${counter}`;
+    return `${timestamp}${counter}`;
   }
 
 

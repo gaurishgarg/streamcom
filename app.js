@@ -7,6 +7,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // Use JSON body parser middleware
 var instances = new List();
 app.get("/", function(req,res){
+  test();
   res.send("This is the face of backend");
 });
 app.post("/getdata", function(req,res){
@@ -54,5 +55,5 @@ async function test(){
   console.log(JSON.parse(my_file));
 
 }
-test();
+
 module.exports = app;

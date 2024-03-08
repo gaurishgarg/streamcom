@@ -12,14 +12,14 @@ app.get("/", function(req,res){
   res.send("This is the face of backend");
 })
 
-app.post("/whatsmyport", function(req,res){
+app.post("/whatsmyport", async function(req,res){
   let received_browserid = req.body.browserid;
   let data_to_Send = {};
   console.log("Received browserid");
   mylogger.add("Received browserid")
   console.log(received_browserid);
   mylogger.add("received_browserid")
-  waitForPostDataPromise = new Promise((resolve,reject) => {
+  waitForPostDataPromise = await new Promise((resolve,reject) => {
     console.log("In promise, waiting for post request");
     mylogger.add("In promise, waiting for post request")
     let timeout = setTimeout(() => {
@@ -40,21 +40,20 @@ app.post("/whatsmyport", function(req,res){
           console.log("Browser ID Matched, Resolving promise");
           mylogger.add("Browser ID Matched, Resolving promise");
           data_to_Send= postData;
-          console.log("Promise resolved");
-          mylogger.add("Promise resolved");
-          console.log(data_to_Send);
-          mylogger.add(data_to_Send);
-          instances.add({"browserid": received_browserid, "data_bind": data_to_Send});
-          console.log("Sending back the following");
-          console.log(data_to_Send);
-          res.send(data_to_Send);
           resolve("I am done");
           myres.send("Post request successful");
-
         }     
     });
    });
-   });
+   console.log("Promise resolved");
+   mylogger.add("Promise resolved");
+   console.log(data_to_Send);
+   mylogger.add(data_to_Send);
+   instances.add({"browserid": received_browserid, "data_bind": data_to_Send});
+   console.log("Sending back the following");
+   console.log(data_to_Send);
+   res.send(data_to_Send);
+});
 
 app.get("/logs", function(req,res){
   res.send(mylogger.toArray());

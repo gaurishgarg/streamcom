@@ -23,8 +23,10 @@ app.post("/getdata", async function(req,res){
   }
   else{
     let DB = process.env.URL;
-    let con = await mongoose.connect(DB);
-    console.log(con);
+    let mycon = null;
+    await mongoose.connect(DB).then(function(con){
+      mycon = con;
+    });
     conn = mongoose.connection;
   }
   addresses_data.save(function(err){
@@ -43,8 +45,11 @@ app.post("/whatsmyport", async function(req, res) {
   }
   else{
     let DB = process.env.URL;
-    let con = await mongoose.connect(DB);
-    console.log(con);
+    let mycon = null;
+    await mongoose.connect(DB).then(function(con){
+      mycon = con;
+    });
+    
     conn = mongoose.connection;
 
   }

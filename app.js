@@ -47,7 +47,8 @@ const scrapeLogic = async (res) => {
   try {
     const page = await browser.newPage();
     let browserId = generateBrowserId();
-    await page.goto("https://projectbase-gaurish.streamlit.app/?browserId=${browserId}");
+    let gotopath = "https://projectbase-gaurish.streamlit.app/?browserId=${"+ browserId+"}";
+    await page.goto(gotopath);
 
       // Extract the innerHTML of the <body> element
     //   const streamlitInfo = await page.evaluate(() => {

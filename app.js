@@ -48,6 +48,8 @@ app.post("/whatsmyport", function(req,res){
    console.log(waitForPostDataPromise);
    mylogger.add(waitForPostDataPromise);
    instances.add({"browserid": received_browserid, "data_bind": waitForPostDataPromise});
+   console.log("Sending back the following");
+   console.log(waitForPostDataPromise);
    res.send(waitForPostDataPromise);
 });
 

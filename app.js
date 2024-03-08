@@ -1,8 +1,8 @@
 const bodyParser = require('body-parser'); // Import body-parser middleware
 const express = require('express');
+const mongoose = require('mongoose');
 let conn = require('./connect');
 const address = require('./schema');
-const mongoose = require('mongoose');
 require("dotenv").config();
 const app = express();
 app.use(express.urlencoded({ extended: true }));

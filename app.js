@@ -16,12 +16,12 @@ app.post("/whatsmyport", async function(req,res){
     let received_browserid = req.body.browserid;
     
     console.log("Received browserid");
-    mylogger.add("Received browserid")
+    mylogger.add("Received browserid");
     console.log(received_browserid);
-    mylogger.add("received_browserid")
+    mylogger.add("received_browserid");
     data_to_Send = await new Promise((resolve,reject) => {
       console.log("In promise, waiting for post request");
-      mylogger.add("In promise, waiting for post request")
+      mylogger.add("In promise, waiting for post request");
       let timeout = setTimeout(() => {
         reject("Handshake refused");
     }, 120000); 
